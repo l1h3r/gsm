@@ -1,7 +1,7 @@
-defmodule Gsm.MixProject do
+defmodule GSM.MixProject do
   use Mix.Project
 
-  @github ""
+  @github "https://github.com/l1h3r/gsm"
 
   def project do
     [
@@ -27,14 +27,14 @@ defmodule Gsm.MixProject do
   end
 
   defp description do
-    ""
+    ~s(GSM-7 encoding for Elixir)
   end
 
   defp package do
     [
       files: ["lib", "mix.exs", "README.md", "LICENSE.md"],
-      maintainers: [""],
-      licenses: [""],
+      maintainers: ["l1h3r"],
+      licenses: ["MIT"],
       links: %{"Github" => @github}
     ]
   end

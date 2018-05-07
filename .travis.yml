@@ -1,0 +1,12 @@
+language: elixir
+elixir:
+  - 1.6.4
+otp_release:
+  - 20.0
+env:
+  - MIX_ENV=test
+script:
+  - mix do deps.get, compile, credo, test
+after_success:
+  - mix coveralls.travis
+  - MIX_ENV=docs mix deps.get
