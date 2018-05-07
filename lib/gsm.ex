@@ -13,10 +13,10 @@ defmodule GSM do
   end
 
   # Extended (2-byte) GSM-7 characters
-  @extended Application.fetch_env!(:gsm, :extended)
+  @extended GSM.Conversion.extended()
 
   # UTF-8 to GSM-7 character mapping
-  @u2g Application.fetch_env!(:gsm, :conversion)
+  @u2g GSM.Conversion.conversion()
 
   # GSM-7 to UTF-8 character mapping
   @g2t for {key, value} <- @u2g, into: %{}, do: {value, key}
