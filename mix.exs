@@ -41,10 +41,10 @@ defmodule GSM.MixProject do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.18.3", only: :dev},
-      {:credo, "~> 0.9.0", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 0.5.1", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.8.1", only: [:dev, :test], runtime: false}
+      {:ex_doc, "~> 0.38", only: :dev},
+      {:credo, "~> 1.7.12", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4.5", only: [:dev, :test], runtime: false},
+      {:excoveralls, "~> 0.18.5", only: [:dev, :test], runtime: false}
     ]
   end
 
