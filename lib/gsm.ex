@@ -94,7 +94,10 @@ defmodule GSM do
   Checks if the given character is a 2-byte GSM-7 character
   """
   @spec double?(binary) :: boolean
-  def double?(<<char::utf8>>), do: Map.has_key?(@extended, char)
+  for extended_char <- Map.keys(@extended) do
+    def double?(<<unquote(extended_char)::utf8>>), do: true
+  end
+
   def double?(_), do: false
 
   # ======= #
@@ -102,18 +105,26 @@ defmodule GSM do
   # ======= #
 
   @spec gsm_char?(binary) :: boolean
-  defp gsm_char?(<<char::utf8>>), do: Map.has_key?(@u2g, char)
-  defp gsm_char?(_), do: false
+  for utf_char <- Map.keys(@u2g), not is_nil(utf_char) do
+    defp gsm_char?(<<unquote(utf_char)::utf8>>), do: true
+  end
 
+  defp gsm_char?(_), do: false
   @spec gsm_char(binary) :: binary | no_return
-  defp gsm_char(<<char::utf8>>), do: get_char(char, @u2g)
+  for {utf_char, gsm_char} <- @u2g, not is_nil(utf_char) do
+    defp gsm_char(<<unquote(utf_char)::utf8>>), do: unquote(gsm_char)
+  end
+
   defp gsm_char(char), do: handle_invalid(char)
 
   @spec utf8_char(binary) :: binary | no_return
-  defp utf8_char(char), do: char |> get_char(@g2t) |> char_to_utf8()
+  for {gsm_char, utf_char} <- @g2t, not is_nil(utf_char) do
+    defp utf8_char(<<unquote(gsm_char)::utf8>>), do: <<unquote(utf_char)::utf8>>
+  end
 
-  @spec get_char(binary | integer, map) :: binary | no_return
-  defp get_char(char, map), do: Map.get_lazy(map, char, fn -> handle_invalid(char) end)
+  defp utf8_char(<<unquote(@escape)::utf8>>), do: nil
+
+  defp utf8_char(char), do: handle_invalid(char)
 
   @spec handle_invalid(binary | integer) :: binary | no_return
   defp handle_invalid(char), do: handle_invalid(char, raise_invalid?())
